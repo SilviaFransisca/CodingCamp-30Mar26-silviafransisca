@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense &amp; Budget Visualizer</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Expense &amp; Budget Visualizer</h1>
+    <button id="theme-toggle" aria-label="Toggle dark/light mode">🌙 Toggle Theme</button>
+  </header>
+
+  <div id="limit-indicator" class="limit-indicator hidden" role="alert">
+    ⚠️ You have exceeded your spending limit!
+  </div>
+
+  <main class="app-main">
+    <section class="panel" aria-labelledby="balance-heading">
+      <h2 id="balance-heading">Total Spending</h2>
+      <div id="balance" class="balance-display">$0.00</div>
+    </section>
+
+    <section class="panel" aria-labelledby="form-heading">
+      <h2 id="form-heading">Add Transaction</h2>
+      <form id="transaction-form" novalidate>
+        <div class="form-group">
+          <label for="tx-name">Item Name</label>
+          <input type="text" id="tx-name" name="name" placeholder="e.g. Coffee" autocomplete="off" />
+          <span class="field-error" id="tx-name-error" aria-live="polite"></span>
+        </div>
+        <div class="form-group">
+          <label for="tx-amount">Amount ($)</label>
+          <input type="number" id="tx-amount" name="amount" placeholder="0.00" min="0.01" step="0.01" />
+          <span class="field-error" id="tx-amount-error" aria-live="polite"></span>
+        </div>
+        <div class="form-group">
+          <label for="tx-category">Category</label>
+          <select id="tx-category" name="category">
+            <option value="">-- Select category --</option>
+          </select>
+          <span class="field-error" id="tx-category-error" aria-live="polite"></span>
+        </div>
+        <button type="submit" class="btn-primary">Add Transaction</button>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="list-heading">
+      <div class="list-header">
+        <h2 id="list-heading">Transactions</h2>
+        <div id="sort-control" class="sort-control">
+          <label for="sort-select">Sort by:</label>
+          <select id="sort-select">
+            <option value="default">Most Recent</option>
+            <option value="amount-asc">Amount (Low → High)</option>
+            <option value="amount-desc">Amount (High → Low)</option>
+            <option value="category-asc">Category (A → Z)</option>
+          </select>
+        </div>
+      </div>
+      <ul id="transaction-list" class="transaction-list" aria-label="Transaction list"></ul>
+    </section>
+
+    <section class="panel" aria-labelledby="chart-heading">
+      <h2 id="chart-heading">Spending by Category</h2>
+      <div class="chart-container">
+        <canvas id="spending-chart" aria-label="Pie chart of spending by category" role="img"></canvas>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="summary-heading">
+      <h2 id="summary-heading">Monthly Summary</h2>
+      <div id="monthly-summary" class="monthly-summary"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="category-heading">
+      <h2 id="category-heading">Manage Categories</h2>
+      <div id="category-manager" class="category-manager">
+        <form id="category-add-form" class="inline-form">
+          <input type="text" id="category-input" placeholder="New category name" autocomplete="off" />
+          <button type="submit" class="btn-secondary">Add</button>
+        </form>
+        <span class="field-error" id="category-error" aria-live="polite"></span>
+        <ul id="category-list" class="category-list" aria-label="Custom categories"></ul>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="limit-heading">
+      <h2 id="limit-heading">Spending Limit</h2>
+      <form id="limit-form" class="inline-form">
+        <label for="limit-input">Set limit ($)</label>
+        <input type="number" id="limit-input" placeholder="e.g. 500" min="0.01" step="0.01" />
+        <button type="submit" class="btn-secondary">Save Limit</button>
+      </form>
+      <p id="current-limit" class="current-limit"></p>
+    </section>
+  </main>
+
+  <div id="ls-banner" class="ls-banner hidden" role="alert">
+    ⚠️ Local Storage is unavailable. Data will not be saved between sessions.
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
